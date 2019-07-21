@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'quizBrain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -28,19 +31,24 @@ class _QuizPageState extends State<QuizPage> {
 
 List<Icon> scoreKeeper = [];
 
-List<String> questions = [
-  "Bhubaneswar is the capital of Odisha.",
-  "Bhubaneswar is the no.10 smartcity of India",
-  "K. Naveen Reddy is the C.M of Odisha"
-];
 
-List<bool> answers = [
-  true,
-  false,
-  false
-];
+//easy way
 
-int questionNumber = 0;
+// List<String> questions = [
+//   "Bhubaneswar is the capital of Odisha.",
+//   "Bhubaneswar is the no.10 smartcity of India.",
+//   "K. Naveen Reddy is the C.M of Odisha"
+// ];
+
+// List<bool> answers = [
+//   true,
+//   false,
+//   false
+// ];
+
+
+//using class and objects.
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,7 +61,7 @@ int questionNumber = 0;
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -78,7 +86,7 @@ int questionNumber = 0;
               ),
               onPressed: () {
 
-                bool correctAnswer = answers[questionNumber];
+                bool correctAnswer = quizBrain.getQuestionAnswer();
                 
                 if(correctAnswer == true) {
                   print('right answer');
@@ -88,7 +96,7 @@ int questionNumber = 0;
 
                 setState(() {
                    //user picks true
-                   questionNumber++;
+                   quizBrain.nextQuestion();
                 });
                
               },
@@ -108,7 +116,9 @@ int questionNumber = 0;
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = answers[questionNumber];
+
+
+                bool correctAnswer = quizBrain.getQuestionAnswer();
                 
                 if(correctAnswer == false) {
                   print('right answer');
@@ -117,7 +127,7 @@ int questionNumber = 0;
                 }
                 //The user picked false.
                 setState(() {
-                   questionNumber++;
+                   quizBrain.nextQuestion();
                 });
               },
             ),
