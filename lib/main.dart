@@ -25,6 +25,16 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+
+List<Icon> scoreKeeper = [];
+
+List<String> questions = [
+  "Bhubaneswar is the capital of Odisha.",
+  "Bhubaneswar is the no.10 smartcity of India",
+  "K. Naveen Reddy is the C.M of Odisha"
+];
+
+int questionNumber = 0;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +47,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questions[questionNumber],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -61,7 +71,11 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
+                setState(() {
+                   //user picks true
+                   questionNumber++;
+                });
+               
               },
             ),
           ),
@@ -80,11 +94,17 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                setState(() {
+                   questionNumber++;
+                });
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        //todo
+        Row(
+          children: scoreKeeper,
+        ),
       ],
     );
   }
