@@ -34,6 +34,12 @@ List<String> questions = [
   "K. Naveen Reddy is the C.M of Odisha"
 ];
 
+List<bool> answers = [
+  true,
+  false,
+  false
+];
+
 int questionNumber = 0;
   @override
   Widget build(BuildContext context) {
@@ -71,6 +77,15 @@ int questionNumber = 0;
                 ),
               ),
               onPressed: () {
+
+                bool correctAnswer = answers[questionNumber];
+                
+                if(correctAnswer == true) {
+                  print('right answer');
+                } else {
+                  print('wrong answer');
+                }
+
                 setState(() {
                    //user picks true
                    questionNumber++;
@@ -93,6 +108,13 @@ int questionNumber = 0;
                 ),
               ),
               onPressed: () {
+                bool correctAnswer = answers[questionNumber];
+                
+                if(correctAnswer == false) {
+                  print('right answer');
+                } else {
+                  print('wrong answer');
+                }
                 //The user picked false.
                 setState(() {
                    questionNumber++;
