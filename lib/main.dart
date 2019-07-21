@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quizBrain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBrain quizBrain = QuizBrain();
 
@@ -29,25 +30,53 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
-List<Icon> scoreKeeper = [];
-
-
-//easy way
-
-// List<String> questions = [
-//   "Bhubaneswar is the capital of Odisha.",
-//   "Bhubaneswar is the no.10 smartcity of India.",
-//   "K. Naveen Reddy is the C.M of Odisha"
-// ];
-
-// List<bool> answers = [
-//   true,
-//   false,
-//   false
-// ];
+List<Icon> scoreKeeper = []; //created scorekeeper array
 
 
 //using class and objects.
+  void checkAnswer(bool userPickedAnswer) {
+
+    bool correctAnswer = quizBrain.getQuestionAnswer();//assigning the correct answer to the variable
+
+    setState(() {
+               
+      if (quizBrain.isFinished() == true) { //if questions are finished then display the alert
+        //TODO Step 4 Part A - show an alert using rFlutter_alert,
+
+        //This is the code for the basic alert from the docs for rFlutter Alert:
+        //Alert(context: context, title: "RFLUTTER", desc: "Flutter is awesome.").show();
+
+        //Modified for our purposes:
+        Alert(
+          context: context,
+          title: 'Finished!',
+          desc: 'You\'ve reached the end of the quiz.',
+        ).show();
+
+        //TODO Step 4 Part C - reset the questionNumber,
+        quizBrain.reset();
+
+        //TODO Step 4 Part D - empty out the scoreKeeper.
+        scoreKeeper = [];
+      }
+
+      //TODO: Step 6 - If we've not reached the end, ELSE do the answer checking steps below 👇
+      else {
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+        quizBrain.nextQuestion();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,20 +114,7 @@ List<Icon> scoreKeeper = [];
                 ),
               ),
               onPressed: () {
-
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-                
-                if(correctAnswer == true) {
-                  print('right answer');
-                } else {
-                  print('wrong answer');
-                }
-
-                setState(() {
-                   //user picks true
-                   quizBrain.nextQuestion();
-                });
-               
+                checkAnswer(true);
               },
             ),
           ),
@@ -116,15 +132,7 @@ List<Icon> scoreKeeper = [];
                 ),
               ),
               onPressed: () {
-
-
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-                
-                if(correctAnswer == false) {
-                  print('right answer');
-                } else {
-                  print('wrong answer');
-                }
+                checkAnswer(false);
                 //The user picked false.
                 setState(() {
                    quizBrain.nextQuestion();
